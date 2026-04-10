@@ -1,28 +1,71 @@
-document.addEventListener("DOMContentLoaded", function (event) {
-    const button = document.getElementById('pingButton');
+const API_URL = "http://localhost:8080/api";
 
-    button.addEventListener('click', async () => {
-        try {
-            const response = await fetch('/api/ping');
-            if (!response.ok) throw new Error('Erro na requisição');
+async function searchGames() {
+  const term = document.getElementById("searchInput").value;
 
-            const data = await response.json();
+  if (!term) return;
 
-            M.toast({
-                html: `Sucesso: ${data.message}`,
-                displayLength: 3000,
-                classes: 'green lighten-2',
-                outDuration: 300,
-                inDuration: 300
-            });
-        } catch (error) {
-            M.toast({
-                html: `Erro: ${error.message}`,
-                displayLength: 3000,
-                classes: 'red lighten-2',
-                outDuration: 300,
-                inDuration: 300
-            });
-        }
-    });
-});
+  const response = await fetch(`${API_URL}/games?term=${term}`);
+  const games = await response.json();
+
+  renderGames(games);
+}
+
+function renderGames(games) {
+  const container = document.getElementById("gamesContainer");
+  container.innerHTML = "";
+
+  games.forEach((game) => {
+    const card = document.createElement("div");
+    card.classList.add("game-card");
+
+    card.innerHTML = `
+      <img src="${game.image}" alt="${game.name}">
+      <h3>${game.name}</h3>
+    `;
+
+    card.onclick = () => loadAchievements(game.id);
+
+    container.appendChild(card);
+  });
+}
+
+async function loadAchievements(appId) {
+  const container = document.getElementById("achievementsContainer");
+  const list = document.getElementById("achievementsList");
+
+  list.innerHTML = "Carregando...";
+  container.classList.remove("hidden");
+
+  try {
+    const response = await fetch(`${API_URL}/games/${appId}/achievements`);
+    const data = await response.json();
+
+    renderAchievements(data, list);
+  } catch (error) {
+    list.innerHTML = "Erro ao carregar conquistas.";
+  }
+}
+
+function renderAchievements(data, list) {
+  list.innerHTML = "";
+
+  const achievements = data?.game?.availableGameStats?.achievements;
+
+  if (!achievements || achievements.length === 0) {
+    list.innerHTML = "Nenhuma conquista encontrada.";
+    return;
+  }
+
+  achievements.forEach((a) => {
+    const div = document.createElement("div");
+    div.classList.add("achievement");
+
+    div.innerHTML = `
+      <strong>${a.displayName || a.name}</strong><br>
+      <small>${a.description || "Sem descrição"}</small>
+    `;
+
+    list.appendChild(div);
+  });
+}

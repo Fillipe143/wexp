@@ -1,21 +1,36 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wexp - Busca Steam</title>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wexp</title>
-    <link rel="stylesheet" href="css/materialize.min.css">
-    <script src="js/materialize.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>🎮 Wexp</h1>
+      <p>Buscar jogos da Steam</p>
+    </header>
+
+    <main>
+      <div class="search-box">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Digite o nome do jogo..."
+        />
+        <button onclick="searchGames()">Buscar</button>
+      </div>
+
+      <div id="gamesContainer" class="games"></div>
+
+      <div id="achievementsContainer" class="achievements hidden">
+        <h2>🏆 Conquistas</h2>
+        <div id="achievementsList"></div>
+      </div>
+    </main>
 
     <script src="app.js"></script>
-    <link rel="stylesheet" href="style.css">
-</head>
-
-<body>
-    <div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
-        <button id="pingButton" class="btn waves-effect waves-light">Ping</button>
-    </div>
-</body>
-
+  </body>
 </html>
