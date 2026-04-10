@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Jogo</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <header>
+    <button onclick="goBack()" class="back-btn">⬅ Voltar</button>
+      <h1 id="gameTitle">Carregando...</h1>
+    </header>
+
+    <main>
+      <div class="game-details">
+        <img id="gameImage" />
+      </div>
+
+      <!-- ABAS -->
+      <div class="tabs">
+        <button id="tabAchievements" class="active">🏆 Conquistas</button>
+        <button id="tabGuides">📘 Guias</button>
+      </div>
+
+      <!-- CONTEÚDO -->
+      <div id="content"></div>
+    </main>
+
+    <!-- IMPORTANTE -->
+    <script src="js/game.js"></script>
+  </body>
+</html>

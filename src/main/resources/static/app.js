@@ -24,7 +24,9 @@ function renderGames(games) {
       <h3>${game.name}</h3>
     `;
 
-    card.onclick = () => loadAchievements(game.id);
+    card.onclick = () => {
+      window.location.href = `game.html?id=${game.id}&name=${encodeURIComponent(game.name)}&image=${game.image}`;
+    };
 
     container.appendChild(card);
   });
