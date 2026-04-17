@@ -72,7 +72,7 @@ window.onload = () => {
     content.innerHTML = `
       <div class="achievement">
         <strong>Guia geral</strong>
-        <p>Em breve os guias serão dinâmicos.</p>
+        <p>Não há guias disponíveis no momento.</p>
       </div>
     `;
   }
