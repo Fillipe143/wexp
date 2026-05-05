@@ -20,8 +20,10 @@ function renderGames(games) {
     card.classList.add("game-card");
 
     card.innerHTML = `
-      <img src="${game.image}" alt="${game.name}">
+      <img src="${game.image}" />
+      <div class="game-info">
       <h3>${game.name}</h3>
+      </div>
     `;
 
     card.onclick = () => {
@@ -64,10 +66,24 @@ function renderAchievements(data, list) {
     div.classList.add("achievement");
 
     div.innerHTML = `
-      <strong>${a.displayName || a.name}</strong><br>
-      <small>${a.description || "Sem descrição"}</small>
-    `;
+      <div class="achievement-row">
 
+        <img 
+          class="achievement-icon" 
+          src="${a.icon || a.icongray || ""}" 
+        />
+
+        <div class="achievement-info">
+          <strong>${a.displayName || a.name}</strong>
+          <small>${a.description || "Sem descrição"}</small>
+        </div>
+
+        <span class="achievement-arrow">→</span>
+
+      </div>
+    `;
     list.appendChild(div);
   });
 }
+
+document.getElementById("searchBtn").addEventListener("click", searchGames);

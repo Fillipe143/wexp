@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Guia</title>
+
+    <link rel="stylesheet" href="guide-detail.css" />
+  </head>
+
+  <body>
+    <header class="header">
+      <div class="container">
+        <button id="backBtn" class="back-btn">← Voltar</button>
+        <h1 id="guideTitle">Carregando...</h1>
+        <p id="guideMeta" class="muted"></p>
+      </div>
+    </header>
+
+    <main class="container">
+      <article class="guide-detail">
+        <p id="guideDescription"></p>
+
+        <a id="guideLink" class="guide-link hidden" target="_blank">
+          🔗 Abrir link externo
+        </a>
+      </article>
+    </main>
+
+    <script src="js/guide-detail.js"></script>
+  </body>
+</html>

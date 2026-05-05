@@ -1,0 +1,157 @@
+:root {
+  --bg: #0f172a;
+  --card: #1e293b;
+  --accent: #38bdf8;
+  --accent-hover: #0ea5e9;
+  --text: #e2e8f0;
+  --muted: #94a3b8;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* CONTAINER PADRÃO (igual index) */
+
+.container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* HEADER (igual game/index) */
+
+.header {
+  background: #020617;
+  border-bottom: 1px solid #1e293b;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* TEXTO */
+
+.muted {
+  color: var(--muted);
+}
+
+.section-title {
+  margin: 0;
+}
+
+/* BOTÃO VOLTAR */
+
+.back-btn {
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.back-btn:hover {
+  background: var(--accent);
+  color: black;
+}
+
+/* HEADER DA LISTA */
+
+.guides-section {
+  margin-top: 30px;
+}
+
+.guides-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+/* BOTÃO */
+
+.primary-btn {
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: none;
+  background: var(--accent);
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.primary-btn:hover {
+  background: var(--accent-hover);
+}
+
+/* LISTA */
+
+.guides-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* ITEM */
+
+.guide-list-item {
+  background: var(--card);
+  border-radius: 12px;
+  padding: 15px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: 0.25s;
+}
+
+.guide-title {
+  font-size: 15px;
+}
+
+/* seta */
+
+.guide-list-item::after {
+  content: "→";
+  color: var(--muted);
+  transition: 0.2s;
+}
+
+/* hover */
+
+.guide-list-item:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+}
+
+.guide-list-item:hover::after {
+  transform: translateX(5px);
+  color: var(--accent);
+}
+
+/* clique */
+
+.guide-list-item:active {
+  transform: scale(0.98);
+}
+
+/* vazio */
+
+.guides-list p {
+  color: var(--muted);
+}

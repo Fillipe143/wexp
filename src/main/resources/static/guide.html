@@ -18,6 +18,33 @@
       <div id="guidesContainer"></div>
     </main>
 
+    <div class="guide-actions">
+      <button id="toggleGuideForm" class="primary-btn">+ Criar guia</button>
+    </div>
+
+    <form id="guideForm" class="guide-form hidden">
+      <input
+        type="text"
+        id="guideTitle"
+        placeholder="Título do guia"
+        required
+      />
+
+      <textarea
+        id="guideDescription"
+        placeholder="Descreva como obter essa conquista..."
+        required
+      ></textarea>
+
+      <input
+        type="url"
+        id="guideUrl"
+        placeholder="Link (YouTube, artigo, etc)"
+      />
+
+      <button type="submit">Salvar guia</button>
+    </form>
+
     <!-- IMPORTANTE: script no FINAL -->
     <script src="js/guide.js"></script>
   </body>

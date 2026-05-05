@@ -1,3 +1,5 @@
+let allAchievements = [];
+
 window.onload = () => {
   const params = new URLSearchParams(window.location.search);
 
@@ -6,11 +8,11 @@ window.onload = () => {
   const gameImage = params.get("image");
 
   const titleEl = document.getElementById("gameTitle");
+  const titleSecondary = document.getElementById("gameTitleSecondary");
   const imgEl = document.getElementById("gameImage");
-  const content = document.getElementById("content");
+  const content = document.getElementById("tabContent");
 
-  const tabAchievements = document.getElementById("tabAchievements");
-  const tabGuides = document.getElementById("tabGuides");
+  const tabs = document.querySelectorAll(".tab");
 
   if (!titleEl || !imgEl || !content) {
     alert("Erro no HTML");
@@ -18,82 +20,120 @@ window.onload = () => {
   }
 
   titleEl.innerText = gameName;
+  if (titleSecondary) titleSecondary.innerText = gameName;
   imgEl.src = gameImage;
 
-  // 🔥 BUSCAR CONQUISTAS REAIS
+  // 🔥 BUSCAR CONQUISTAS
   async function loadAchievements() {
     content.innerHTML = "Carregando conquistas...";
 
     try {
-      const response = await fetch(`http://localhost:8080/api/games/${gameId}/achievements`);
+      const response = await fetch(
+        `http://localhost:8080/api/games/${gameId}/achievements`,
+      );
+
       const data = await response.json();
 
-      renderAchievements(data);
+      const achievements = data?.game?.availableGameStats?.achievements || [];
+
+      allAchievements = achievements;
+
+      renderAchievementsList(allAchievements);
     } catch (error) {
       content.innerHTML = "Erro ao carregar conquistas.";
       console.error(error);
     }
   }
 
-  function renderAchievements(data) {
+  // 🎯 RENDER ÚNICO
+  function renderAchievementsList(list) {
     content.innerHTML = "";
 
-    const achievements = data?.game?.availableGameStats?.achievements;
-
-    if (!achievements || achievements.length === 0) {
+    if (!list || list.length === 0) {
       content.innerHTML = "Nenhuma conquista encontrada.";
       return;
     }
 
-    achievements.forEach(a => {
+    list.forEach((a) => {
       const div = document.createElement("div");
       div.classList.add("achievement");
 
       div.innerHTML = `
         <div class="achievement-row">
-          <div>
+
+          <img 
+            class="achievement-icon" 
+            src="${a.icon || a.icongray || ""}" 
+          />
+
+          <div class="achievement-info">
             <strong>${a.displayName || a.name}</strong>
-            <p>${a.description || "Sem descrição"}</p>
+            <small>${a.description || "Sem descrição"}</small>
           </div>
+
         </div>
       `;
 
-      // 👉 clique leva para guia
       div.onclick = () => {
-        window.location.href = `guide.html?id=${gameId}&name=${encodeURIComponent(gameName)}&image=${encodeURIComponent(gameImage)}&achievement=${encodeURIComponent(a.displayName || a.name)}`;
+        window.location.href =
+          `guides.html?id=${gameId}` +
+          `&name=${encodeURIComponent(gameName)}` +
+          `&achievement=${encodeURIComponent(a.displayName || a.name)}`;
       };
 
       content.appendChild(div);
     });
   }
 
-  // 📘 GUIAS (mock por enquanto)
-  function renderGuides() {
+  // 🔎 FILTRO
+  function filterAchievements(term) {
+    const filtered = allAchievements.filter((a) =>
+      (a.displayName || a.name).toLowerCase().includes(term.toLowerCase()),
+    );
+
+    renderAchievementsList(filtered);
+  }
+
+  document
+    .getElementById("achievementSearch")
+    ?.addEventListener("input", (e) => {
+      filterAchievements(e.target.value);
+    });
+
+  // 📘 GUIAS
+  function loadGuides() {
     content.innerHTML = `
       <div class="achievement">
-        <strong>Guia geral</strong>
-        <p>Não há guias disponíveis no momento.</p>
+        <strong>Guias</strong>
+        <p>Nenhum guia disponível ainda.</p>
       </div>
     `;
   }
 
-  // eventos
-  tabAchievements.onclick = () => {
-    tabAchievements.classList.add("active");
-    tabGuides.classList.remove("active");
-    loadAchievements();
-  };
+  // 🎯 TABS
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      tabs.forEach((t) => t.classList.remove("active"));
+      tab.classList.add("active");
 
-  tabGuides.onclick = () => {
-    tabGuides.classList.add("active");
-    tabAchievements.classList.remove("active");
-    renderGuides();
-  };
+      const selected = tab.dataset.tab;
+
+      if (selected === "achievements") {
+        loadAchievements();
+      } else {
+        loadGuides();
+      }
+    });
+  });
 
   // inicial
   loadAchievements();
+
+  // voltar
+  document.getElementById("backBtn")?.addEventListener("click", goBack);
 };
 
+// voltar
 function goBack() {
   window.location.href = "index.html";
 }

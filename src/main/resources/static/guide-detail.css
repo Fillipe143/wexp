@@ -1,0 +1,90 @@
+:root {
+  --bg: #0f172a;
+  --card: #1e293b;
+  --accent: #38bdf8;
+  --accent-hover: #0ea5e9;
+  --text: #e2e8f0;
+  --muted: #94a3b8;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* Layout */
+
+.container {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* Header */
+
+.header {
+  background: #020617;
+  border-bottom: 1px solid #1e293b;
+}
+
+.header h1 {
+  margin: 10px 0 5px;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+/* Botão voltar */
+
+.back-btn {
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.back-btn:hover {
+  background: var(--accent);
+  color: black;
+}
+
+/* Conteúdo do guia */
+
+.guide-detail {
+  background: var(--card);
+  padding: 25px;
+  border-radius: 12px;
+  line-height: 1.7;
+  font-size: 15px;
+}
+
+/* Texto */
+
+.guide-detail p {
+  margin-bottom: 15px;
+}
+
+/* Link externo */
+
+.guide-link {
+  display: inline-block;
+  margin-top: 20px;
+  color: var(--accent);
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.guide-link:hover {
+  text-decoration: underline;
+}
+
+/* Melhor leitura */
+
+.guide-detail {
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
