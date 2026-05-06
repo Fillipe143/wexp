@@ -37,7 +37,7 @@ window.onload = () => {
 
       div.onclick = () => {
         window.location.href =
-          `guide-detail.html?id=${gameId}` +
+          `/pages/guideDetail/guide-detail.html?id=${gameId}` +
           `&achievement=${encodeURIComponent(achievement)}` +
           `&index=${index}`;
       };
@@ -48,7 +48,7 @@ window.onload = () => {
 
   document.getElementById("createGuideBtn").addEventListener("click", () => {
     window.location.href =
-      `create-guide.html?id=${gameId}` +
+      `/pages/guideForm/create-guide.html?id=${gameId}` +
       `&achievement=${encodeURIComponent(achievement)}`;
   });
 

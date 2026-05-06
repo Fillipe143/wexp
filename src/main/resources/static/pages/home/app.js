@@ -27,7 +27,7 @@ function renderGames(games) {
     `;
 
     card.onclick = () => {
-      window.location.href = `game.html?id=${game.id}&name=${encodeURIComponent(game.name)}&image=${game.image}`;
+      window.location.href = `/pages/game/game.html?id=${game.id}&name=${encodeURIComponent(game.name)}&image=${game.image}`;
     };
 
     container.appendChild(card);

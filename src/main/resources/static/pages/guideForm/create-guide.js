@@ -36,7 +36,7 @@ window.onload = () => {
 
     // redireciona de volta pra lista
     window.location.href =
-      `guides.html?id=${gameId}` +
+      `/pages/guideList/guides.html?id=${gameId}` +
       `&achievement=${encodeURIComponent(achievement)}`;
   });
 

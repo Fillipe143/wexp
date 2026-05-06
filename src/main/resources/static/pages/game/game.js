@@ -76,7 +76,7 @@ window.onload = () => {
 
       div.onclick = () => {
         window.location.href =
-          `guides.html?id=${gameId}` +
+          `/pages/guideList/guides.html?id=${gameId}` +
           `&name=${encodeURIComponent(gameName)}` +
           `&achievement=${encodeURIComponent(a.displayName || a.name)}`;
       };
