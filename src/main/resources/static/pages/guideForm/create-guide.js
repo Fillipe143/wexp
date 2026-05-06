@@ -13,7 +13,6 @@ window.onload = () => {
 
     const title = document.getElementById("title").value;
     const description = document.getElementById("description").value;
-    const url = document.getElementById("url").value;
 
     const storage = JSON.parse(localStorage.getItem("guides")) || {};
 
@@ -28,7 +27,6 @@ window.onload = () => {
     storage[gameId][achievement].push({
       title,
       description,
-      url,
       createdAt: Date.now(),
     });
 
