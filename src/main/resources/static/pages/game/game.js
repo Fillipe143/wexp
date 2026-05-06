@@ -130,10 +130,7 @@ window.onload = () => {
   loadAchievements();
 
   // voltar
-  document.getElementById("backBtn")?.addEventListener("click", goBack);
+  document
+    .getElementById("backBtn")
+    .addEventListener("click", () => history.back());
 };
-
-// voltar
-function goBack() {
-  window.location.href = "index.html";
-}
