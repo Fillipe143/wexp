@@ -1,64 +1,13 @@
-:root {
-  --bg: #0f172a;
-  --card: #1e293b;
-  --accent: #38bdf8;
-  --accent-hover: #0ea5e9;
-  --text: #e2e8f0;
-  --muted: #94a3b8;
+.header button {
+  margin: 12px 0;
 }
 
-* {
-  box-sizing: border-box;
-}
-
-body {
+.header h1, p {
   margin: 0;
-  font-family: "Segoe UI", Arial, sans-serif;
-  background: var(--bg);
-  color: var(--text);
 }
-
-/* layout padrão */
-
-.container {
-  max-width: 800px;
-  margin: auto;
-  padding: 20px;
-}
-
-/* header */
-
-.header {
-  background: #020617;
-  border-bottom: 1px solid #1e293b;
-}
-
-.header-content {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-/* texto */
 
 .muted {
   color: var(--muted);
-}
-
-/* botão voltar */
-
-.back-btn {
-  background: transparent;
-  border: 1px solid var(--accent);
-  color: var(--accent);
-  padding: 6px 10px;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.back-btn:hover {
-  background: var(--accent);
-  color: black;
 }
 
 /* form */
