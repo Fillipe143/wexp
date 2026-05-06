@@ -8,7 +8,6 @@ window.onload = () => {
   const titleEl = document.getElementById("guideTitle");
   const metaEl = document.getElementById("guideMeta");
   const descEl = document.getElementById("guideDescription");
-  const linkEl = document.getElementById("guideLink");
 
   if (!titleEl || !descEl) {
     alert("Erro no HTML");
@@ -31,11 +30,6 @@ window.onload = () => {
   metaEl.innerText = achievement;
 
   descEl.innerText = guide.description;
-
-  if (guide.url) {
-    linkEl.href = guide.url;
-    linkEl.classList.remove("hidden");
-  }
 
   document
     .getElementById("backBtn")

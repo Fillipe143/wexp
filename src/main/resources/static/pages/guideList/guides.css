@@ -39,6 +39,14 @@ body {
   gap: 15px;
 }
 
+.header button {
+  margin: 12px 0;
+}
+
+.header h1, p {
+  margin: 0;
+}
+
 /* TEXTO */
 
 .muted {

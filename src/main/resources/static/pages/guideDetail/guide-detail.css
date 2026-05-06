@@ -63,24 +63,14 @@ body {
   font-size: 15px;
 }
 
+.guide-detail h2 {
+  margin-top: 0;
+}
+
 /* Texto */
 
 .guide-detail p {
   margin-bottom: 15px;
-}
-
-/* Link externo */
-
-.guide-link {
-  display: inline-block;
-  margin-top: 20px;
-  color: var(--accent);
-  font-weight: bold;
-  text-decoration: none;
-}
-
-.guide-link:hover {
-  text-decoration: underline;
 }
 
 /* Melhor leitura */
