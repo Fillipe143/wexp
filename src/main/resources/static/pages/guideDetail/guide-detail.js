@@ -3,10 +3,12 @@ window.onload = () => {
 
   const gameId = params.get("id");
   const achievement = params.get("achievement");
+  const achievementIcon = params.get("icon");
+  const gameName = params.get("name");
+  const gameImage = params.get("image");
   const index = params.get("index");
 
   const titleEl = document.getElementById("guideTitle");
-  const metaEl = document.getElementById("guideMeta");
   const descEl = document.getElementById("guideDescription");
 
   if (!titleEl || !descEl) {
@@ -27,7 +29,9 @@ window.onload = () => {
 
   // 🎯 preencher
   titleEl.innerText = guide.title;
-  metaEl.innerText = achievement;
+  document.getElementById("achievementIcon").src = achievementIcon;
+  document.getElementById("achievementTitle").innerText = achievement;
+  document.getElementById("gameName").innerText = gameName;
 
   descEl.innerText = guide.description;
 };

@@ -7,19 +7,17 @@ window.onload = () => {
   const gameName = params.get("name");
   const gameImage = params.get("image");
 
-  const titleEl = document.getElementById("gameTitle");
   const titleSecondary = document.getElementById("gameTitleSecondary");
   const imgEl = document.getElementById("gameImage");
   const content = document.getElementById("tabContent");
 
   const tabs = document.querySelectorAll(".tab");
 
-  if (!titleEl || !imgEl || !content) {
+  if (!titleSecondary || !imgEl || !content) {
     alert("Erro no HTML");
     return;
   }
 
-  titleEl.innerText = gameName;
   if (titleSecondary) titleSecondary.innerText = gameName;
   imgEl.src = gameImage;
 
@@ -79,7 +77,8 @@ window.onload = () => {
           `/pages/guideList/guides.html?id=${gameId}` +
           `&name=${encodeURIComponent(gameName)}` +
           `&image=${encodeURIComponent(gameImage)}` +
-          `&achievement=${encodeURIComponent(a.displayName || a.name)}`;
+          `&achievement=${encodeURIComponent(a.displayName || a.name)}` +
+          `&icon=${encodeURIComponent(a.icon || a.icongray || "")}`;
       };
 
       content.appendChild(div);

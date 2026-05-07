@@ -26,6 +26,24 @@ body {
   padding: 20px;
 }
 
+.container h1 {
+  margin: 0;
+}
+
+/* Logo */
+
+.logo {
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+  text-decoration: none;
+  transition: all .1s ease-in-out;
+}
+
+.logo:hover {
+  color: var(--accent-hover);
+  cursor: pointer;
+}
 /* Header */
 
 .header {

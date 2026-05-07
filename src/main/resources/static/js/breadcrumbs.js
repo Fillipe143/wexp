@@ -17,11 +17,14 @@ function generateBreadcrumb() {
   const gameId = params.get("id");
   const gameImage = params.get("image");
   const achievement = params.get("achievement");
+  const achievementIcon = params.get("icon");
 
   const gameQuery =
     `?id=${gameId}` +
     `&name=${encodeURIComponent(gameName)}` +
-    `&image=${encodeURIComponent(gameImage)}`;
+    `&image=${encodeURIComponent(gameImage)}` +
+    `&achievement=${encodeURIComponent(achievement)}` +
+    `&icon=${encodeURIComponent(achievementIcon)}`;
 
   const guidesQuery =
     `${gameQuery}` + `&achievement=${encodeURIComponent(achievement)}`;

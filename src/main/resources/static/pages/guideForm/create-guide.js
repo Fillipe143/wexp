@@ -5,8 +5,9 @@ window.onload = () => {
   const gameId = params.get("id");
   const gameImage = params.get("image");
   const achievement = params.get("achievement");
-
-  document.getElementById("achievementName").innerText = achievement;
+  const achievementIcon = params.get("icon");
+  document.getElementById("achievementName").innerText =
+    achievement + " - " + gameName;
 
   const form = document.getElementById("guideForm");
 
@@ -39,6 +40,7 @@ window.onload = () => {
       `/pages/guideList/guides.html?id=${gameId}` +
       `&name=${encodeURIComponent(gameName)}` +
       `&image=${encodeURIComponent(gameImage)}` +
-      `&achievement=${encodeURIComponent(achievement)}`;
+      `&achievement=${encodeURIComponent(achievement)}` +
+      `&icon=${encodeURIComponent(achievementIcon)}`;
   });
 };

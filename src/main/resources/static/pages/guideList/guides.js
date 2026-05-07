@@ -5,9 +5,14 @@ window.onload = () => {
   const gameName = params.get("name");
   const gameImage = params.get("image");
   const achievement = params.get("achievement");
+  const achievementIcon = params.get("icon");
 
   document.getElementById("achievementTitle").innerText = achievement;
   document.getElementById("gameName").innerText = gameName;
+
+  if (achievementIcon) {
+    document.getElementById("achievementIcon").src = achievementIcon;
+  }
 
   loadGuides();
 
@@ -42,6 +47,7 @@ window.onload = () => {
           `&name=${encodeURIComponent(gameName)}` +
           `&image=${encodeURIComponent(gameImage)}` +
           `&achievement=${encodeURIComponent(achievement)}` +
+          `&icon=${encodeURIComponent(achievementIcon)}` +
           `&index=${index}`;
       };
 
@@ -54,6 +60,7 @@ window.onload = () => {
       `/pages/guideForm/create-guide.html?id=${gameId}` +
       `&name=${encodeURIComponent(gameName)}` +
       `&image=${encodeURIComponent(gameImage)}` +
-      `&achievement=${encodeURIComponent(achievement)}`;
+      `&achievement=${encodeURIComponent(achievement)}` +
+      `&icon=${encodeURIComponent(params.get("icon") || "")}`;
   });
 };
