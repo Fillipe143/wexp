@@ -5,18 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Guia</title>
 
+    <link rel="stylesheet" href="/css/style.css" />
     <link rel="stylesheet" href="guide-detail.css" />
   </head>
 
   <body>
     <header class="header">
       <div class="container">
-        <button id="backBtn" class="back-btn">← Voltar</button>
         <h1 id="guideMeta"></h1>
       </div>
     </header>
 
     <main class="container">
+      <nav class="breadcrumb" id="breadcrumb"></nav>
       <article class="guide-detail">
         <h2 id="guideTitle"></h2>
         <p id="guideDescription"></p>
@@ -24,5 +25,6 @@
     </main>
 
     <script src="guide-detail.js"></script>
+    <script src="/js/breadcrumbs.js"></script>
   </body>
 </html>

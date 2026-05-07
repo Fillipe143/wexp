@@ -3,6 +3,7 @@ window.onload = () => {
 
   const gameId = params.get("id");
   const gameName = params.get("name");
+  const gameImage = params.get("image");
   const achievement = params.get("achievement");
 
   document.getElementById("achievementTitle").innerText = achievement;
@@ -38,6 +39,8 @@ window.onload = () => {
       div.onclick = () => {
         window.location.href =
           `/pages/guideDetail/guide-detail.html?id=${gameId}` +
+          `&name=${encodeURIComponent(gameName)}` +
+          `&image=${encodeURIComponent(gameImage)}` +
           `&achievement=${encodeURIComponent(achievement)}` +
           `&index=${index}`;
       };
@@ -49,10 +52,8 @@ window.onload = () => {
   document.getElementById("createGuideBtn").addEventListener("click", () => {
     window.location.href =
       `/pages/guideForm/create-guide.html?id=${gameId}` +
+      `&name=${encodeURIComponent(gameName)}` +
+      `&image=${encodeURIComponent(gameImage)}` +
       `&achievement=${encodeURIComponent(achievement)}`;
   });
-
-  document
-    .getElementById("backBtn")
-    .addEventListener("click", () => history.back());
 };

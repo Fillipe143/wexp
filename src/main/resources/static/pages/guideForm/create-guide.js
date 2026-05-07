@@ -1,7 +1,9 @@
 window.onload = () => {
   const params = new URLSearchParams(window.location.search);
 
+  const gameName = params.get("name");
   const gameId = params.get("id");
+  const gameImage = params.get("image");
   const achievement = params.get("achievement");
 
   document.getElementById("achievementName").innerText = achievement;
@@ -35,10 +37,8 @@ window.onload = () => {
     // redireciona de volta pra lista
     window.location.href =
       `/pages/guideList/guides.html?id=${gameId}` +
+      `&name=${encodeURIComponent(gameName)}` +
+      `&image=${encodeURIComponent(gameImage)}` +
       `&achievement=${encodeURIComponent(achievement)}`;
   });
-
-  document
-    .getElementById("backBtn")
-    .addEventListener("click", () => history.back());
 };

@@ -78,6 +78,7 @@ window.onload = () => {
         window.location.href =
           `/pages/guideList/guides.html?id=${gameId}` +
           `&name=${encodeURIComponent(gameName)}` +
+          `&image=${encodeURIComponent(gameImage)}` +
           `&achievement=${encodeURIComponent(a.displayName || a.name)}`;
       };
 
@@ -128,9 +129,4 @@ window.onload = () => {
 
   // inicial
   loadAchievements();
-
-  // voltar
-  document
-    .getElementById("backBtn")
-    .addEventListener("click", () => history.back());
 };

@@ -30,8 +30,4 @@ window.onload = () => {
   metaEl.innerText = achievement;
 
   descEl.innerText = guide.description;
-
-  document
-    .getElementById("backBtn")
-    .addEventListener("click", () => history.back());
 };
