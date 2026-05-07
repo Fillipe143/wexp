@@ -15,6 +15,9 @@ function renderGames(games) {
   const container = document.getElementById("gamesContainer");
   container.innerHTML = "";
 
+  const title = document.querySelector("#gamesSection .section-title");
+  title.textContent = `Resultados para "${document.getElementById("searchInput").value}"`;
+
   games.forEach((game) => {
     const card = document.createElement("div");
     card.classList.add("game-card");
