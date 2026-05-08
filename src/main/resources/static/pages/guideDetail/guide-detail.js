@@ -1,3 +1,5 @@
+import { mdToHtml } from "/js/markdown_viewer/index.js";
+
 window.onload = () => {
   const params = new URLSearchParams(window.location.search);
 
@@ -33,5 +35,5 @@ window.onload = () => {
   document.getElementById("achievementTitle").innerText = achievement;
   document.getElementById("gameName").innerText = gameName;
 
-  descEl.innerText = guide.description;
+  descEl.innerHTML = mdToHtml(guide.description);
 };

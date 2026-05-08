@@ -1,3 +1,5 @@
+import { mdToHtml } from "/js/markdown_viewer/index.js";
+
 window.onload = () => {
   const params = new URLSearchParams(window.location.search);
 
@@ -10,6 +12,14 @@ window.onload = () => {
     achievement + " - " + gameName;
 
   const form = document.getElementById("guideForm");
+
+  const textarea = document.getElementById("description");
+
+  const preview = document.getElementById("markdownPreview");
+
+  textarea.addEventListener("input", () => {
+    preview.innerHTML = mdToHtml(textarea.value);
+  });
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();

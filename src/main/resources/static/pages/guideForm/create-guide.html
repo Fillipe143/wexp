@@ -7,6 +7,7 @@
 
     <link rel="stylesheet" href="/css/style.css" />
     <link rel="stylesheet" href="create-guide.css" />
+    <link rel="stylesheet" href="/css/markdown.css" />
   </head>
 
   <body>
@@ -31,15 +32,24 @@
         </div>
 
         <div class="form-group">
-          <label>Descrição</label>
-          <textarea id="description" required></textarea>
+          <label>Conteúdo do guia</label>
+
+          <div class="markdown-layout">
+            <textarea
+              id="description"
+              required
+              placeholder="# Meu guia..."
+            ></textarea>
+
+            <div id="markdownPreview" class="markdown-preview"></div>
+          </div>
         </div>
 
         <button type="submit" class="primary-btn">Salvar guia</button>
       </form>
     </main>
 
-    <script src="create-guide.js"></script>
+    <script type="module" src="create-guide.js"></script>
     <script src="/js/breadcrumbs.js"></script>
   </body>
 </html>
