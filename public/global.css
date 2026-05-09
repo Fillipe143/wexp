@@ -1,0 +1,64 @@
+:root {
+    --bg-primary: #080808;
+    --surface-hover: #2d2d2d;
+    --surface-active: #333333;
+    --divider: #383838;
+    --text-main: #a0a3a1;
+    --text-bright: #ffffff;
+    --text-muted: #666666;
+    --alert-green: #388e3c;
+}
+
+.material-symbols-rounded {
+    font-family: "Material Symbols Rounded";
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-feature-settings: "liga";
+    -webkit-font-smoothing: antialiased;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    vertical-align: baseline;
+    list-style: none;
+    border: 0;
+    text-decoration: none;
+}
+
+body {
+    background: var(--bg-primary);
+    color: var(--text-main);
+    font-family: "Roboto", sans-serif;
+    overflow-x: hidden;
+}
+
+.layout {
+    display: flex;
+    height: 100vh;
+}
+
+#app {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+    .layout {
+        flex-direction: column;
+    }
+    body {
+        overflow-y: auto;
+    }
+}

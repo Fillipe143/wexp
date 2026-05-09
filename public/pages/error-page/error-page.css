@@ -1,0 +1,28 @@
+/* Isso faz a tag <error-page> esticar até o fim do #app */
+:host {
+    display: block;
+    height: 100%;
+}
+
+/* O resto continua exatamente igual */
+.error-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%; 
+    padding: 40px;
+    text-align: center;
+    color: var(--text-bright);
+}
+
+.error-icon {
+    font-size: 64px;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+}
+
+.error-message {
+    color: var(--text-muted);
+    margin-top: 8px;
+}
