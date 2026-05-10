@@ -57,4 +57,8 @@ export class WxComponent extends HTMLElement {
             this.shadowRoot.innerHTML = `<p style="color: var(--text-bright); padding: 1rem;">Erro ao carregar ${this.componentName}.</p>`;
         }
     }
+
+    $(selector) {
+        return $(this.shadowRoot).find(selector);
+    }
 }

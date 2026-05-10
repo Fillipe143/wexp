@@ -2,6 +2,7 @@ const routes = {
     "": { tag: "home-page", path: "../pages/home-page/home-page.js" },
     "#": { tag: "home-page", path: "../pages/home-page/home-page.js" },
     "#home": { tag: "home-page", path: "../pages/home-page/home-page.js" },
+    "#guide": { tag: "guide-page", path: "../pages/guide-page/guide-page.js" },
     "#error": { tag: "error-page", path: "../pages/error-page/error-page.js" },
 };
 
