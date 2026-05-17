@@ -3,11 +3,15 @@ import { createComponent } from "../../utils/componentFactory.js";
 export default createComponent("home-page", {
     template: "/src/pages/home/HomePage.html",
 
-    mounted($) {
-        let contador = 0;
+    async mounted($) {
+        async function updateCounter({ value }) {
+            $("p").text("Contador: " + value);
+        }
 
-        $("button").on("click", () => {
-            $("p").text("Contador: " + ++contador);
+        updateCounter(await api.counter.get());
+
+        $("button").on("click", async () => {
+            updateCounter(await api.counter.add());
         });
     }
 });

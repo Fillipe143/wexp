@@ -4,4 +4,4 @@ build:
 	go build -o app ./src
 
 run:
-	go run ./src 
+	go run ./src -live-reload
