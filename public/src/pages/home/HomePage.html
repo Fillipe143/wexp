@@ -1,20 +1,64 @@
 <div class="container py-5">
-  <h1 class="mb-4">Buscar jogo</h1>
-
-  <div class="row g-2 mb-4">
-    <div class="col">
-      <input
-        id="game-id-input"
-        type="number"
-        class="form-control"
-        placeholder="Digite o ID do jogo"
-      />
-    </div>
-
-    <div class="col-auto">
-      <button id="search-button" class="btn btn-primary">Buscar</button>
+  <div class="d-flex justify-content-between align-items-center mb-5">
+    <div>
+      <h1 class="display-5 fw-bold mb-1">Wexp</h1>
+      <p class="text-muted mb-0">Explore os jogos mais populares da Steam</p>
     </div>
   </div>
 
-  <div id="game-result"></div>
+  <div class="card mb-5">
+    <div class="card-body">
+      <h3 class="mb-3">Buscar jogo</h3>
+
+      <div class="row g-2">
+        <div class="col">
+          <input
+            id="game-id-input"
+            type="number"
+            class="form-control"
+            placeholder="Digite o ID do jogo"
+          />
+        </div>
+
+        <div class="col-auto">
+          <button id="search-button" class="btn btn-primary">Buscar</button>
+        </div>
+      </div>
+
+      <div id="game-result" class="mt-4"></div>
+    </div>
+  </div>
+
+  <section class="mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2 class="h3 mb-0">Top Sellers</h2>
+    </div>
+
+    <div
+      id="top-sellers"
+      class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4"
+    ></div>
+  </section>
+
+  <section class="mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2 class="h3 mb-0">Novidades</h2>
+    </div>
+
+    <div
+      id="new-releases"
+      class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4"
+    ></div>
+  </section>
+
+  <section>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2 class="h3 mb-0">Promoções</h2>
+    </div>
+
+    <div
+      id="specials"
+      class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4"
+    ></div>
+  </section>
 </div>
