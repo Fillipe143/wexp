@@ -1,4 +1,5 @@
 import { createComponent } from "../../utils/componentFactory.js";
+import "../../components/game-card/gameCard.js";
 
 export default createComponent("home-page", {
   template: "/src/pages/home/HomePage.html",
@@ -11,75 +12,24 @@ export default createComponent("home-page", {
     const newReleases = $("#new-releases");
     const specials = $("#specials");
 
-    function attachCardEvents(container) {
-      container.find(".game-card").on("click", function () {
-        const gameId = $(this).data("game-id");
-
-        history.pushState({}, "", `/game/${gameId}`);
-      });
-    }
-
     function renderGames(container, games) {
-      if (!Array.isArray(games)) {
-        console.error("games não é array:", games);
-        return;
-      }
+      container.html(`
+    ${games
+      .map(
+        (_, index) => `
+          <div class="col">
+            <game-card data-index="${index}"></game-card>
+          </div>
+        `,
+      )
+      .join("")}
+  `);
 
-      container.html(
-        games
-          .map(
-            (game) => `
-              <div class="col">
-                <div
-                  class="card h-100 shadow-sm border-0 overflow-hidden game-card"
-                  data-game-id="${game.id || game.appid}"
-                  style="cursor: pointer;"
-                >
-                  <img
-                    src="${game.header_image || game.tiny_image}"
-                    class="card-img-top"
-                    alt="${game.name}"
-                  />
+      container.find("game-card").each(function () {
+        const index = $(this).data("index");
 
-                  <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">
-                      ${game.name}
-                    </h5>
-
-                    ${
-                      game.final_price !== undefined
-                        ? `
-                          <div class="mt-auto">
-                            ${
-                              game.discount_percent > 0
-                                ? `
-                                  <span class="badge text-bg-success mb-2">
-                                    -${game.discount_percent}%
-                                  </span>
-                                `
-                                : ""
-                            }
-
-                            <div class="fw-bold">
-                              ${
-                                game.final_price === 0
-                                  ? "Grátis"
-                                  : `R$ ${(game.final_price / 100).toFixed(2)}`
-                              }
-                            </div>
-                          </div>
-                        `
-                        : ""
-                    }
-                  </div>
-                </div>
-              </div>
-            `,
-          )
-          .join(""),
-      );
-
-      attachCardEvents(container);
+        this.game = games[index];
+      });
     }
 
     async function loadHome() {
