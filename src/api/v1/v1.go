@@ -2,15 +2,15 @@ package v1
 
 import (
 	"github.com/labstack/echo/v4"
-	"wexp/src/api/v1/counter"
+
 	"wexp/src/api/v1/game"
-	"wexp/src/api/v1/store"
+	"wexp/src/clients/steam"
 )
 
-func Register(e *echo.Group) {
-	v1Group := e.Group("/v1")
+func Register(e *echo.Group, steamClient *steam.Client) {
+	v1 := e.Group("/v1")
 
-	counter.Register(v1Group)
-	game.Register(v1Group)
-	store.Register(v1Group)
+	gameService := game.NewService(steamClient)
+	gameHandler := game.NewHandler(gameService)
+	game.Register(v1, gameHandler)
 }

@@ -4,7 +4,9 @@ class ApiClient {
     }
 
     async request(path, options = {}) {
-        const res = await fetch(this.baseURL + path, {
+        const url = this.baseURL + path;
+
+        const res = await fetch(url, {
             headers: {
                 "Content-Type": "application/json",
                 ...(options.headers || {})
@@ -13,15 +15,24 @@ class ApiClient {
         });
 
         if (!res.ok) {
-            throw new Error(await res.text());
+            const errorText = await res.text();
+            throw new Error(errorText || "API Error");
         }
 
         return res.json();
     }
 
-    counter = {
-        get: () => this.request("/counter"),
-        add: () => this.request("/counter", { method: "POST" })
+    games = {
+        featured: () => this.request("/games/featured"),
+
+        search: (q) =>
+            this.request(`/games/search?q=${encodeURIComponent(q)}`),
+
+        get: (id) =>
+            this.request(`/games/${id}`),
+
+        achievements: (id) =>
+            this.request(`/games/${id}/achievements`)
     };
 }
 
