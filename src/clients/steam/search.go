@@ -1,6 +1,9 @@
 package steam
 
-import "fmt"
+import (
+	"fmt"
+	"net/url"
+)
 
 type SearchResponse struct {
 	Total int          `json:"total"`
@@ -36,7 +39,7 @@ func (c *Client) SearchGames(term string) ([]SearchItem, error) {
 
 	url := fmt.Sprintf(
 		"https://store.steampowered.com/api/storesearch/?term=%s&l=pt-BR&cc=BR",
-		term,
+		url.QueryEscape(term),
 	)
 
 	_, err := c.HTTP.R().

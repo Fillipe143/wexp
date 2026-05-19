@@ -8,15 +8,15 @@
 
   <div class="card mb-5">
     <div class="card-body">
-      <h3 class="mb-3">Buscar jogo</h3>
+      <h3 class="mb-3">Buscar jogos</h3>
 
       <div class="row g-2">
         <div class="col">
           <input
-            id="game-id-input"
-            type="number"
+            id="search-input"
+            type="text"
             class="form-control"
-            placeholder="Digite o ID do jogo"
+            placeholder="Digite o nome do jogo"
           />
         </div>
 
@@ -25,7 +25,10 @@
         </div>
       </div>
 
-      <div id="game-result" class="mt-4"></div>
+      <div
+        id="search-results"
+        class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 mt-2"
+      ></div>
     </div>
   </div>
 
