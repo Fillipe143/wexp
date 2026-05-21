@@ -97,4 +97,16 @@ textarea {
   padding: 20px;
 
   overflow-y: auto;
+
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+
+  min-width: 0;
+}
+
+.markdown-preview a,
+.markdown-preview code {
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
