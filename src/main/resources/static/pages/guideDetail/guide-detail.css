@@ -87,3 +87,71 @@ ul {
 h1 {
   margin: 12px 0
 }
+
+/* Comparação */
+
+.diff-container {
+  background: #1e1e1e; /* Fundo escuro */
+  color: #d4d4d4;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 14px;
+  padding: 15px;
+  border-radius: 8px;
+  white-space: pre-wrap; /* Mantém as quebras de linha exatas do Markdown */
+  overflow-wrap: break-word;
+}
+
+.diff-line {
+  padding: 2px 8px;
+  line-height: 1.5;
+  border-radius: 3px;
+}
+
+/* Linhas adicionadas (Verde) */
+.diff-new {
+  background-color: rgba(46, 160, 67, 0.2);
+  color: #7ee787;
+  border-left: 4px solid #2ea043;
+}
+
+/* Linhas removidas (Vermelho) */
+.diff-delete {
+  background-color: rgba(248, 81, 73, 0.2);
+  color: #ff7b72;
+  border-left: 4px solid #f85149;
+  /* text-decoration: line-through; */
+}
+
+.history-date {
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 8px;
+}
+
+/* --- ANIMAÇÃO DO HISTÓRICO --- */
+.history-wrapper {
+  display: grid;
+  grid-template-rows: 0fr; /* Começa com altura ZERO (fechado) */
+  transition: grid-template-rows 0.4s ease-out;
+}
+
+.history-wrapper.open {
+  grid-template-rows: 1fr; /* Expande para a altura do conteúdo */
+}
+
+.history-inner {
+  overflow: hidden; /* Esconde o que vazar enquanto a altura é zero */
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  
+  /* Mantivemos o estilo flex aqui dentro */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-top: 20px; /* Substitui o margin-top antigo */
+}
+
+/* Quando o wrapper estiver com a classe 'open', a opacidade volta a 1 */
+.history-wrapper.open .history-inner {
+  opacity: 1;
+}
