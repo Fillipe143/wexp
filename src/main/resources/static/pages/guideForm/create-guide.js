@@ -9,38 +9,40 @@ window.onload = () => {
   const achievement = params.get("achievement");
   const achievementIcon = params.get("icon");
 
-  // 👇 Pega o ID do guia caso seja uma edição
-  const guideId = params.get("guideId");
-
   const form = document.getElementById("guideForm");
   const titleInput = document.getElementById("title");
   const textarea = document.getElementById("description");
   const preview = document.getElementById("markdownPreview");
   const pageTitle = document.querySelector("h1");
 
-  // Carrega o banco de dados local
+  // 1. Carrega o banco de dados do LocalStorage
   const storage = JSON.parse(localStorage.getItem("guides")) || {};
 
-  // --- MODO EDIÇÃO ---
-  // Se houver um guideId na URL, significa que estamos editando
-  if (guideId) {
-    pageTitle.innerText = "Editar guia";
+  // 2. Busca o histórico de versões desta conquista específica
+  const currentVersions = storage[gameId]?.[achievement] || [];
 
-    // Busca o guia específico que queremos editar
-    const guidesList = storage[gameId]?.[achievement] || [];
-    const guideToEdit = guidesList.find((g) => g.id === guideId);
+  // --- DETECTANDO SE É UMA NOVA VERSÃO (EDIÇÃO) OU O PRIMEIRO GUIA ---
+  if (currentVersions.length > 0) {
+    pageTitle.innerText = "Sugerir melhoria (Nova versão)";
 
-    if (guideToEdit) {
-      // Preenche os campos com os dados atuais do guia
-      titleInput.value = guideToEdit.title;
-      textarea.value = guideToEdit.description;
+    // Para preencher o formulário, precisamos achar a versão MAIS VOTADA atual.
+    // Clonamos e ordenamos por upvotes (do maior para o menor)
+    const sortedVersions = [...currentVersions].sort(
+      (a, b) => b.upvotes - a.upvotes,
+    );
+    const topVersion = sortedVersions[0];
 
-      // Renderiza o preview inicial
-      preview.innerHTML = mdToHtml(guideToEdit.description);
-    }
+    // Preenche os campos do formulário com a versão que está atualmente na frontpage
+    titleInput.value = topVersion.title;
+    textarea.value = topVersion.description;
+
+    // Atualiza o preview de Markdown inicial
+    preview.innerHTML = mdToHtml(topVersion.description);
+  } else {
+    pageTitle.innerText = "Criar primeiro guia";
   }
 
-  // Altera o nome da conquista no topo da página
+  // Define o título da conquista no topo da página
   document.getElementById("achievementName").innerText =
     achievement + " - " + gameName;
 
@@ -56,50 +58,29 @@ window.onload = () => {
     const title = titleInput.value;
     const description = textarea.value;
 
+    // Inicializa os nós do objeto caso o jogo ou conquista nunca tenham tido guias
     if (!storage[gameId]) storage[gameId] = {};
     if (!storage[gameId][achievement]) storage[gameId][achievement] = [];
 
-    if (guideId) {
-      // 📝 LOGICA DE EDIÇÃO
-      const guidesList = storage[gameId][achievement];
-      const guideIndex = guidesList.findIndex((g) => g.id === guideId);
+    // 3. CRIA A NOVA VERSÃO
+    // Não importa se é o primeiro guia ou a décima edição, salvamos como um novo item na lista!
+    const newVersion = {
+      versionId: String(Date.now()), // ID único para podermos computar os votos nele depois
+      title: title,
+      description: description,
+      createdAt: Date.now(),
+      upvotes: 0, // Toda versão nasce com zero votos
+    };
 
-      if (guideIndex !== -1) {
-        const currentGuide = guidesList[guideIndex];
+    // Adiciona a nova versão na array da conquista
+    storage[gameId][achievement].push(newVersion);
 
-        // Se o histórico não existir no objeto antigo, inicializa ele
-        if (!currentGuide.history) currentGuide.history = [];
-
-        // 1. Salva a versão atual no histórico ANTES de alterar
-        currentGuide.history.push({
-          title: currentGuide.title,
-          description: currentGuide.description,
-          updatedAt: Date.now(),
-        });
-
-        // 2. Atualiza com os novos dados informados no formulário
-        currentGuide.title = title;
-        currentGuide.description = description;
-
-        guidesList[guideIndex] = currentGuide;
-      }
-    } else {
-      // ➕ LOGICA DE CRIAÇÃO (Guia Novo)
-      storage[gameId][achievement].push({
-        id: String(Date.now()), // Gera um ID único baseado no tempo
-        title,
-        description,
-        createdAt: Date.now(),
-        history: [], // Inicializa o histórico vazio
-      });
-    }
-
-    // Grava as alterações no LocalStorage
+    // Salva o banco atualizado no LocalStorage
     localStorage.setItem("guides", JSON.stringify(storage));
 
-    // Redireciona de volta para a lista de guias
+    // Redireciona de volta para a tela da conquista
     window.location.href =
-      `/pages/guideList/guides.html?id=${gameId}` +
+      `/pages/guideList/guide-detail.html?id=${gameId}` +
       `&name=${encodeURIComponent(gameName)}` +
       `&image=${encodeURIComponent(gameImage)}` +
       `&achievement=${encodeURIComponent(achievement)}` +

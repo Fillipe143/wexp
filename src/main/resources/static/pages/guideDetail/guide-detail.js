@@ -8,173 +8,153 @@ window.onload = () => {
   const achievementIcon = params.get("icon");
   const gameName = params.get("name");
   const gameImage = params.get("image");
-  const index = params.get("index");
 
+  // Elementos do DOM
   const titleEl = document.getElementById("guideTitle");
   const descEl = document.getElementById("guideDescription");
+  const votesBadge = document.getElementById("guideVotesBadge");
+  const versionsCount = document.getElementById("versionsCount");
+  const editBtn = document.getElementById("editBtn");
 
-  if (!titleEl || !descEl) {
-    alert("Erro no HTML");
-    return;
-  }
+  // Elementos das Abas
+  const tabMainBtn = document.getElementById("tabMainBtn");
+  const tabVersionsBtn = document.getElementById("tabVersionsBtn");
+  const paneMain = document.getElementById("paneMain");
+  const paneVersions = document.getElementById("paneVersions");
+  const versionsContainer = document.getElementById("versionsContainer");
 
-  const storage = JSON.parse(localStorage.getItem("guides")) || {};
-
-  const guides = storage?.[gameId]?.[achievement] || [];
-
-  const guide = guides[index];
-
-  if (!guide) {
-    titleEl.innerText = "Guia não encontrado";
-    return;
-  }
-
-  // 🎯 preencher
-  titleEl.innerText = guide.title;
+  // Preenche o Hero (Cabeçalho da Conquista)
   document.getElementById("achievementIcon").src = achievementIcon;
   document.getElementById("achievementTitle").innerText = achievement;
   document.getElementById("gameName").innerText = gameName;
 
-  descEl.innerHTML = mdToHtml(guide.description);
+  // Carrega o Banco de Dados
+  const storage = JSON.parse(localStorage.getItem("guides")) || {};
+  const versions = storage?.[gameId]?.[achievement] || [];
 
-  // Certifique-se de que este código está dentro do seu window.onload ou escopo principal da página
-  const editBtn = document.getElementById("editBtn");
+  // Atualiza o contador de versões na aba
+  versionsCount.innerText = versions.length;
 
-  // Em vez de definir apenas o atributo .href, vamos controlar o clique:
+  // Lógica de Abas
+  tabMainBtn.addEventListener("click", () => {
+    tabMainBtn.classList.add("active");
+    tabVersionsBtn.classList.remove("active");
+    paneMain.classList.add("active");
+    paneVersions.classList.remove("active");
+  });
+
+  tabVersionsBtn.addEventListener("click", () => {
+    tabVersionsBtn.classList.add("active");
+    tabMainBtn.classList.remove("active");
+    paneVersions.classList.add("active");
+    paneMain.classList.remove("active");
+  });
+
+  // Botão de Editar (Sugerir Melhoria)
   editBtn.addEventListener("click", (e) => {
-    e.preventDefault(); // Impede o comportamento padrão do link temporariamente
-
-    // 1. Monte a URL (Garanta que todas essas variáveis vieram da URL atual ou do seu banco de dados)
+    e.preventDefault();
     const url =
       `/pages/guideForm/create-guide.html?id=${gameId}` +
       `&name=${encodeURIComponent(gameName)}` +
       `&image=${encodeURIComponent(gameImage)}` +
       `&achievement=${encodeURIComponent(achievement)}` +
-      `&icon=${encodeURIComponent(achievementIcon)}` +
-      `&guideId=${guide.id}`; // 👈 Se 'guide' for o objeto que você buscou do LocalStorage
-
-    // 2. O SUPER TRUQUE DO DEBUG: Olhe o console do navegador ao clicar no botão!
-    console.log("Tentando redirecionar para:", url);
-
-    // 3. Faz o redirecionamento forçado via JavaScript
+      `&icon=${encodeURIComponent(achievementIcon)}`;
     window.location.href = url;
   });
 
-  // 1. Cole a função compareText corrigida no seu arquivo
-  function compareText(oldContent, newContent) {
-    const oldLines = oldContent.split("\n");
-    const newLines = newContent.split("\n");
-    const result = [];
-    let i = 0,
-      j = 0;
-
-    while (i < oldLines.length || j < newLines.length) {
-      if (i >= oldLines.length) {
-        result.push({ type: "new", content: newLines[j] });
-        j++;
-        continue;
-      }
-      if (j >= newLines.length) {
-        result.push({ type: "delete", content: oldLines[i] });
-        i++;
-        continue;
-      }
-      if (oldLines[i] === newLines[j]) {
-        result.push({ type: "default", content: oldLines[i] });
-        i++;
-        j++;
-        continue;
-      }
-      if (j + 1 < newLines.length && oldLines[i] === newLines[j + 1]) {
-        result.push({ type: "new", content: newLines[j] });
-        j++;
-        continue;
-      }
-      if (i + 1 < oldLines.length && oldLines[i + 1] === newLines[j]) {
-        result.push({ type: "delete", content: oldLines[i] });
-        i++;
-        continue;
-      }
-      result.push({ type: "delete", content: oldLines[i] });
-      result.push({ type: "new", content: newLines[j] });
-      i++;
-      j++;
-    }
-    return result;
+  // Se não houver guias criados ainda
+  if (versions.length === 0) {
+    titleEl.innerText = "Nenhum guia criado ainda.";
+    descEl.innerHTML =
+      "<p class='muted'>Seja o primeiro a escrever um guia para esta conquista!</p>";
+    votesBadge.style.display = "none";
+    editBtn.innerText = "✏️ Criar primeiro guia";
+    return;
   }
 
-  // 2. Lógica para renderizar o histórico
-  // (Certifique-se de que a variável 'guide' já foi buscada do localStorage no seu código atual)
+  // 1. ORDENA PARA ACHAR A CAMPEÃ (Mais upvotes no topo)
+  const sortedVersions = [...versions].sort((a, b) => b.upvotes - a.upvotes);
+  const topVersion = sortedVersions[0];
 
-  const historySection = document.getElementById("historySection");
-  const historyContainer = document.getElementById("historyContainer");
-  const toggleHistoryBtn = document.getElementById("toggleHistoryBtn");
+  // 2. RENDERIZA A CAMPEÃ NA ABA PRINCIPAL
+  titleEl.innerText = topVersion.title;
+  votesBadge.innerText = `⭐ ${topVersion.upvotes} upvotes`;
+  descEl.innerHTML = mdToHtml(topVersion.description);
 
-  // Verifica se o guia tem histórico
-  if (guide.history && guide.history.length > 0) {
-    historySection.style.display = "block"; // Exibe a seção (o botão agora aparece)
+  // 3. RENDERIZA A LISTA DE VERSÕES NA SEGUNDA ABA
+  // 3. RENDERIZA A LISTA DE VERSÕES NA SEGUNDA ABA (Modelo Accordion)
+  let versionsHTML = "";
 
-    const timeline = [
-      ...guide.history,
-      {
-        description: guide.description,
-        updatedAt: Date.now(),
-        isCurrent: true,
-      },
-    ];
+  sortedVersions.forEach((ver) => {
+    const dataFormatada = new Date(ver.createdAt).toLocaleString("pt-BR");
+    const isChampion = ver.versionId === topVersion.versionId;
+    const championBadge = isChampion
+      ? "<span style='color: #a3d222; background: rgba(163, 210, 34, 0.1); padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight:bold; margin-left: 8px;'>🏆 Atual Campeã</span>"
+      : "";
 
-    let historyHTML = "";
+    versionsHTML += `
+      <div class="version-card" style="background: var(--card); padding: 20px; border-radius: 12px; border: 1px solid #223a4e; box-shadow: 0 4px 15px rgba(0,0,0,0.2); margin-bottom: 15px;">
+        
+        <div class="version-toggle-header" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer; gap: 16px;">
+          <div>
+            <h3 style="margin: 0; font-size: 1.3rem; color: #fff; display: inline-block; vertical-align: middle;">${ver.title}</h3>
+            ${championBadge}
+            <div style="font-size: 13px; color: #888; margin-top: 4px;">📅 Criada em: ${dataFormatada} <span style="color: #66c0f4; margin-left: 6px;">(Clique para expandir)</span></div>
+          </div>
+          
+          <button class="upvote-btn" data-id="${ver.versionId}" style="cursor:pointer; background: #2a475e; color: white; border:none; padding: 8px 16px; border-radius: 6px; font-weight:bold; white-space: nowrap; transition: background 0.2s;">
+            ▲ Votar (${ver.upvotes})
+          </button>
+        </div>
+        
+        <div class="version-content-wrapper">
+          <div class="version-content-inner">
+            <div class="markdown-body" style="font-size: 14.5px; padding-top: 15px; border-top: 1px solid rgba(34, 58, 78, 0.4); margin-top: 15px;">
+              ${mdToHtml(ver.description)}
+            </div>
+          </div>
+        </div>
 
-    for (let i = 1; i < timeline.length; i++) {
-      const versaoAnterior = timeline[i - 1];
-      const versaoAtualLoop = timeline[i];
-
-      const diffs = compareText(
-        versaoAnterior.description,
-        versaoAtualLoop.description,
-      );
-
-      const diffHTML = diffs
-        .map((line) => {
-          if (line.type === "new")
-            return `<div class="diff-line diff-new">+ ${line.content}</div>`;
-          if (line.type === "delete")
-            return `<div class="diff-line diff-delete">- ${line.content}</div>`;
-          return `<div class="diff-line">  ${line.content}</div>`;
-        })
-        .join("");
-
-      const dataFormatada = new Date(versaoAtualLoop.updatedAt).toLocaleString(
-        "pt-BR",
-      );
-      const tituloEdicao = versaoAtualLoop.isCurrent
-        ? "Última Edição (Atual)"
-        : `Edição anterior`;
-
-      historyHTML += `
-      <div class="history-item">
-        <div class="history-date"><strong>${tituloEdicao}</strong> • ${dataFormatada}</div>
-        <div class="diff-container">${diffHTML}</div>
       </div>
     `;
-    }
+  });
 
-    // Injeta o conteúdo gerado dentro do container oculto
-    historyContainer.innerHTML = historyHTML;
+  versionsContainer.innerHTML = versionsHTML;
 
-    // 👇 NOVA LÓGICA DO BOTÃO COM ANIMAÇÃO
-    const historyWrapper = document.getElementById("historyWrapper");
+  // LÓGICA 1: Clique para Expandir/Recolher o Accordion
+  document.querySelectorAll(".version-toggle-header").forEach((header) => {
+    header.addEventListener("click", (e) => {
+      // Encontra o wrapper de conteúdo que está logo após o cabeçalho
+      const contentWrapper = header.nextElementSibling;
+      const textSpan = header.querySelector("span style"); // Para atualizar o texto se quiser
 
-    toggleHistoryBtn.addEventListener("click", () => {
-      // A função toggle adiciona a classe "open" se não tiver, e remove se tiver
-      historyWrapper.classList.toggle("open");
+      contentWrapper.classList.toggle("open");
 
-      // Verifica se a classe está lá para mudar o texto do botão
-      if (historyWrapper.classList.contains("open")) {
-        toggleHistoryBtn.innerText = "Ocultar histórico de alterações (▲)";
-      } else {
-        toggleHistoryBtn.innerText = "Visualizar histórico de alterações (▼)";
+      // Ajusta o indicador visual de aberto/fechado
+      const infoDiv = header.querySelector("div div");
+      const atualizado = contentWrapper.classList.contains("open")
+        ? "(Clique para fechar ▲)"
+        : "(Clique para ler ▼)";
+      infoDiv.innerHTML = infoDiv.innerHTML.replace(
+        /\(Clique para.*\)/,
+        atualizado,
+      );
+    });
+  });
+
+  // LÓGICA 2: Clique no Botão de Votar
+  document.querySelectorAll(".upvote-btn").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      // 🔥 CRUCIAL: Impede que o clique no botão também abra/feche o accordion!
+      e.stopPropagation();
+
+      const vId = e.currentTarget.getAttribute("data-id");
+      const target = versions.find((v) => v.versionId === vId);
+      if (target) {
+        target.upvotes += 1;
+        localStorage.setItem("guides", JSON.stringify(storage));
+        window.location.reload();
       }
     });
-  }
+  });
 };

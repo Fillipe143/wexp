@@ -19,45 +19,56 @@
 
     <main class="container">
       <nav class="breadcrumb" id="breadcrumb"></nav>
+
       <div class="achievement-hero">
         <img id="achievementIcon" class="achievement-hero-icon" />
-
         <div class="achievement-hero-info">
           <h1 id="achievementTitle">...</h1>
           <p id="gameName" class="muted"></p>
         </div>
       </div>
-      <article class="guide-detail">
-        <p id="guideTitle"></p>
-        <hr />
-        <div id="guideDescription"></div>
-      </article>
 
-      <button id="editBtn" class="primary-btn">Editar guia</button>
-
-      <section id="historySection" style="display: none; margin-top: 40px">
-        <hr style="margin-bottom: 20px; opacity: 0.2" />
-
-        <button
-          id="toggleHistoryBtn"
-          class="secondary-btn"
-          style="
-            cursor: pointer;
-            padding: 8px 16px;
-            border-radius: 6px;
-            background: #2a475e;
-            color: white;
-            border: none;
-            font-weight: bold;
-          "
-        >
-          Visualizar histórico de alterações (▼)
+      <div class="guide-tabs">
+        <button id="tabMainBtn" class="tab-link active">Guia Principal</button>
+        <button id="tabVersionsBtn" class="tab-link">
+          Versões da Comunidade (<span id="versionsCount">0</span>)
         </button>
+      </div>
 
-        <div id="historyWrapper" class="history-wrapper">
-          <div id="historyContainer" class="history-inner"></div>
+      <div id="paneMain" class="tab-pane active">
+        <article class="guide-detail">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 10px;
+            "
+          >
+            <p id="guideTitle" style="margin: 0"></p>
+            <span id="guideVotesBadge" style="font-size: 14px; color: #888"
+              >⭐ 0 upvotes</span
+            >
+          </div>
+          <hr />
+          <div id="guideDescription" class="markdown-body"></div>
+        </article>
+
+        <div class="guide-footer-actions">
+          <span class="muted-text">Viu algo errado ou quer complementar?</span>
+          <button id="editBtn" class="discreet-btn">✏️ Sugerir melhoria</button>
         </div>
-      </section>
+      </div>
+
+      <div id="paneVersions" class="tab-pane">
+        <div class="versions-header-info">
+          <p class="muted">
+            Vote na melhor versão. A versão com mais votos é promovida
+            automaticamente para a página principal.
+          </p>
+        </div>
+        <div id="versionsContainer" class="versions-vertical-list"></div>
+      </div>
     </main>
 
     <script type="module" src="guide-detail.js"></script>
