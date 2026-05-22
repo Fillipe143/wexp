@@ -248,3 +248,34 @@ h1 {
 .version-content-inner {
   overflow: hidden; /* Esconde o texto enquanto estiver fechado */
 }
+
+/* --- MICRO-INTERAÇÕES DO BOTÃO DE UPVOTE --- */
+
+/* Estado natural com transição suave */
+.upvote-btn {
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.2s ease, color 0.2s ease !important;
+}
+
+/* Efeito de Hover discreto */
+.upvote-btn:hover {
+  background: #3b6284 !important;
+}
+
+/* Efeito de clique físico (pressionado) */
+.upvote-btn:active {
+  transform: scale(0.92);
+}
+
+/* Classe de sucesso disparada pelo JS (O Pulinho) */
+.upvote-btn.success-pop {
+  animation: upvoteBounce 0.45s ease-in-out;
+  background: #a3d222 !important; /* Cor verde da campeã */
+  color: #121a24 !important;     /* Texto escuro para dar contraste */
+}
+
+@keyframes upvoteBounce {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.2); }
+  70% { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}

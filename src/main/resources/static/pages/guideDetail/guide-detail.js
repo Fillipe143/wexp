@@ -42,6 +42,18 @@ window.onload = () => {
     tabVersionsBtn.classList.remove("active");
     paneMain.classList.add("active");
     paneVersions.classList.remove("active");
+
+    // 💡 O TRUQUE: Se houve votação, reordena e atualiza o Guia Principal sem dar reload na página
+    if (versions.length > 0) {
+      const currentSorted = [...versions].sort((a, b) => b.upvotes - a.upvotes);
+      const newTopVersion = currentSorted[0];
+
+      // Atualiza os textos da aba principal caso a liderança tenha mudado
+      titleEl.innerText = newTopVersion.title;
+      if (votesBadge)
+        votesBadge.innerText = `⭐ ${newTopVersion.upvotes} upvotes`;
+      descEl.innerHTML = mdToHtml(newTopVersion.description);
+    }
   });
 
   tabVersionsBtn.addEventListener("click", () => {
@@ -113,15 +125,32 @@ window.onload = () => {
   // LÓGICA 2: Clique no Botão de Votar
   document.querySelectorAll(".upvote-btn").forEach((btn) => {
     btn.addEventListener("click", (e) => {
-      // 🔥 CRUCIAL: Impede que o clique no botão também abra/feche o accordion!
-      e.stopPropagation();
+      e.stopPropagation(); // Impede fechar/abrir o accordion
 
-      const vId = e.currentTarget.getAttribute("data-id");
+      const buttonEl = e.currentTarget;
+      const vId = buttonEl.getAttribute("data-id");
+
+      // Busca a versão direto no array original do escopo
       const target = versions.find((v) => v.versionId === vId);
+
       if (target) {
+        // Evita que o usuário clique freneticamente enquanto a animação acontece
+        if (buttonEl.classList.contains("success-pop")) return;
+
+        // 1. Incrementa o voto no dado real e salva
         target.upvotes += 1;
         localStorage.setItem("guides", JSON.stringify(storage));
-        window.location.reload();
+
+        // 2. Atualiza o texto da interface imediatamente
+        buttonEl.innerHTML = `▲ Votado (${target.upvotes})`;
+
+        // 3. Aplica o efeito visual do "pulinho" verde
+        buttonEl.classList.add("success-pop");
+
+        // 4. ATUALIZAÇÃO EM TEMPO REAL: Se for a campeã atual, já atualiza o badge da outra aba
+        if (target.versionId === topVersion.versionId) {
+          if (votesBadge) votesBadge.innerText = `⭐ ${target.upvotes} upvotes`;
+        }
       }
     });
   });
