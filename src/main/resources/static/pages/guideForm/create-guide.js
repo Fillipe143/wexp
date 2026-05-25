@@ -80,7 +80,7 @@ window.onload = () => {
 
     // Redireciona de volta para a tela da conquista
     window.location.href =
-      `/pages/guideList/guide-detail.html?id=${gameId}` +
+      `/pages/guideDetail/guide-detail.html?id=${gameId}` +
       `&name=${encodeURIComponent(gameName)}` +
       `&image=${encodeURIComponent(gameImage)}` +
       `&achievement=${encodeURIComponent(achievement)}` +

@@ -152,3 +152,25 @@
 .primary-btn:hover {
   background: var(--accent-hover);
 }
+
+/* Feedback visual de clique na linha do tempo */
+.clickable-activity {
+  cursor: pointer;
+  padding: 8px;
+  margin-left: -8px; /* Ajusta o espaçamento interno para o hover não deslocar o texto */
+  border-radius: 6px;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.clickable-activity:hover {
+  background: rgba(255, 255, 255, 0.05); /* Um leve brilho ao passar o mouse */
+}
+
+.clickable-activity:hover .timeline-text strong {
+  color: var(--accent); /* Destaca o nome da conquista ao passar o mouse */
+  text-decoration: underline;
+}
+
+.clickable-activity:active {
+  transform: scale(0.99); /* Efeito sutil de clique pressionado */
+}

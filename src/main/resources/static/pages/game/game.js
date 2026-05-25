@@ -102,12 +102,108 @@ window.onload = () => {
 
   // 📘 GUIAS
   function loadGuides() {
-    content.innerHTML = `
-      <div class="achievement">
-        <strong>Guias</strong>
-        <p>Nenhum guia disponível ainda.</p>
+    const tabContent = document.getElementById("tabContent");
+
+    // 1. Injeta a estrutura da linha do tempo direto na div única de conteúdo
+    tabContent.innerHTML = `
+    <div class="activity-timeline">
+      <h3 class="timeline-title">🕒 Atividade Recente no Jogo</h3>
+      <div id="timelineContainer" class="timeline-list">
+        <p class="empty-timeline">Carregando atividades...</p>
       </div>
-    `;
+    </div>
+  `;
+
+    // 2. Pega o ID do jogo na URL e renderiza os dados do LocalStorage
+    const urlParams = new URLSearchParams(window.location.search);
+    const gameId = urlParams.get("id");
+
+    renderGameTimeline(gameId);
+  }
+
+  function renderGameTimeline(currentGameId) {
+    const timelineContainer = document.getElementById("timelineContainer");
+    if (!timelineContainer) return;
+
+    const storage = JSON.parse(localStorage.getItem("guides")) || {};
+    let gameActivities = [];
+
+    const gameObject = storage[currentGameId];
+
+    if (gameObject) {
+      Object.keys(gameObject).forEach((achievementName) => {
+        const guidesArray = gameObject[achievementName] || [];
+
+        guidesArray.forEach((version) => {
+          let rawDate = version.createdAt;
+          if (rawDate && !isNaN(rawDate)) {
+            rawDate = Number(rawDate);
+          }
+
+          // 🔍 Busca o ícone da conquista dentro da lista carregada da API
+          const foundAchievement = allAchievements.find(
+            (a) => (a.displayName || a.name) === achievementName,
+          );
+          const iconUrl = foundAchievement
+            ? foundAchievement.icon || foundAchievement.icongray
+            : "";
+
+          gameActivities.push({
+            achievementName: achievementName,
+            createdAt: rawDate ? new Date(rawDate) : new Date(),
+            icon: iconUrl || "",
+          });
+        });
+      });
+    }
+
+    gameActivities.sort((a, b) => b.createdAt - a.createdAt);
+
+    if (gameActivities.length === 0) {
+      timelineContainer.innerHTML =
+        '<p class="empty-timeline">Nenhum guia foi criado para este jogo ainda.</p>';
+      return;
+    }
+
+    timelineContainer.innerHTML = gameActivities
+      .map((activity) => {
+        const timeAgo = formatRelativeTime(activity.createdAt);
+
+        // 🛠️ Monta a URL idêntica à do clique do card de conquistas
+        const targetUrl =
+          `/pages/guideDetail/guide-detail.html?id=${currentGameId}` +
+          `&name=${encodeURIComponent(gameName)}` +
+          `&image=${encodeURIComponent(gameImage)}` +
+          `&achievement=${encodeURIComponent(activity.achievementName)}` +
+          `&icon=${encodeURIComponent(activity.icon)}`;
+
+        return `
+          <div class="timeline-item clickable-activity" onclick="window.location.href='${targetUrl}'">
+            <div class="timeline-meta">⏰ ${timeAgo}</div>
+            <p class="timeline-text">
+              Uma nova versão de guia foi publicada para a conquista 
+              <strong>"${activity.achievementName}"</strong>.
+            </p>
+          </div>
+        `;
+      })
+      .join("");
+  }
+
+  // Função auxiliar de tempo que usamos antes
+  function formatRelativeTime(dateString) {
+    const now = new Date();
+    const past = new Date(dateString);
+    const diffMs = now - past;
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMins / 60);
+    const diffDays = Math.floor(diffHours / 24);
+
+    if (diffMins < 1) return "Agora mesmo";
+    if (diffMins < 60) return `Há ${diffMins} min`;
+    if (diffHours < 24) return `Há ${diffHours} h`;
+    if (diffDays === 1) return "Ontem";
+    return `Há ${diffDays} dias`;
   }
 
   // 🎯 TABS
@@ -117,10 +213,15 @@ window.onload = () => {
       tab.classList.add("active");
 
       const selected = tab.dataset.tab;
+      const searchInput = document.getElementById("achievementSearch");
 
       if (selected === "achievements") {
+        // Mostra o campo de busca de conquistas de volta
+        searchInput.style.display = "block";
         loadAchievements();
       } else {
+        // Esconde o campo de busca de conquistas, já que estamos na aba de guias
+        searchInput.style.display = "none";
         loadGuides();
       }
     });
