@@ -52,6 +52,12 @@ public class ApiController {
     return restTemplate.getForObject(url, String.class);
   }
 
+  @GetMapping("/featured")
+  public String getFeatured() {
+    String url = "https://store.steampowered.com/api/featuredcategories/?l=pt-BR&cc=BR";
+    return restTemplate.getForObject(url, String.class);
+  }
+
   @GetMapping("/ping")
   public String ping() {
     return "pong";
