@@ -32,23 +32,10 @@ body {
 
 /* Logo */
 
-.logo {
-  color: white;
-  font-size: 2rem;
-  font-weight: bold;
-  text-decoration: none;
-  transition: all .1s ease-in-out;
-}
-
-.logo:hover {
-  color: var(--accent-hover);
-  cursor: pointer;
-}
-/* Header */
-
 .header {
   background: #020617;
   border-bottom: 1px solid #1e293b;
+  /*padding: 15px 0; /* Ajuste o padding vertical se achar necessário */
 }
 
 .header-content {
@@ -57,13 +44,64 @@ body {
   gap: 15px;
 }
 
-.logo {
-  margin: 0;
+/* Container que agrupa Texto + Teclado */
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
 }
 
+/* Texto Wexp */
+.logo {
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+  text-decoration: none;
+  margin: 0;
+  transition: color .1s ease-in-out;
+}
+
+/* 🌟 MÁGICA DO HOVER SINCRONIZADO 🌟
+   Quando o mouse entra no CONTAINER, ele pinta o texto E as chaves ao mesmo tempo */
+.logo-container:hover .logo {
+  color: var(--accent-hover);
+}
+
+.logo-container:hover .key {
+  background-color: var(--accent-hover);
+}
+
+/* Subtítulo do Header */
 .subtitle {
   color: var(--muted);
 }
+
+/* Ícone WASD (Grid) */
+.wasd-icon {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); 
+  grid-template-rows: repeat(2, 1fr);
+  gap: 3px; 
+  width: 36px; 
+  height: 23px; 
+  transform: translateY(2px);
+}
+
+/* Cada quadradinho */
+.key {
+  background-color: #fff;
+  border-radius: 2px;
+  aspect-ratio: 1; 
+  /* Transição suave de cor idêntica à do texto */
+  transition: background-color .1s ease-in-out; 
+}
+
+/* Posições das teclas na tabela */
+.key-w { grid-column: 2; grid-row: 1; }
+.key-a { grid-column: 1; grid-row: 2; }
+.key-s { grid-column: 2; grid-row: 2; }
+.key-d { grid-column: 3; grid-row: 2; }
 
 /* Botão voltar */
 

@@ -18,7 +18,7 @@ export function createVersionCard(ver, isChampion) {
         <div>
           <h3 style="margin: 0; font-size: 1.3rem; color: #fff; display: inline-block; vertical-align: middle;">${ver.title}</h3>
           ${championBadge}
-          <div style="font-size: 13px; color: #888; margin-top: 4px;">📅 Criada em: ${dataFormatada} <span style="color: #66c0f4; margin-left: 6px;">(Clique para ler ▼)</span></div>
+          <div style="font-size: 13px; color: #888; margin-top: 4px;">Criado em: ${dataFormatada} <span style="color: #66c0f4; margin-left: 6px;">(Clique para ler ▼)</span></div>
         </div>
         
         <button class="upvote-btn" data-id="${ver.versionId}" style="cursor:pointer; background: #2a475e; color: white; border:none; padding: 8px 16px; border-radius: 6px; font-weight:bold; white-space: nowrap; transition: background 0.2s;">

@@ -107,7 +107,7 @@ window.onload = () => {
     // 1. Injeta a estrutura da linha do tempo direto na div única de conteúdo
     tabContent.innerHTML = `
     <div class="activity-timeline">
-      <h3 class="timeline-title">🕒 Atividade Recente no Jogo</h3>
+      <h3 class="timeline-title">Atividade Recente no Jogo</h3>
       <div id="timelineContainer" class="timeline-list">
         <p class="empty-timeline">Carregando atividades...</p>
       </div>
