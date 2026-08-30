@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:8080/api";
+const API_URL = "/api";
 
 // 💡 FUNÇÃO AUXILIAR: Cria a estrutura de card para qualquer seção
 function createGameCard(game) {

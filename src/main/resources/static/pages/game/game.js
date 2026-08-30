@@ -26,9 +26,7 @@ window.onload = () => {
     content.innerHTML = "Carregando conquistas...";
 
     try {
-      const response = await fetch(
-        `http://localhost:8080/api/games/${gameId}/achievements`,
-      );
+      const response = await fetch(`api/games/${gameId}/achievements`);
 
       const data = await response.json();
 
